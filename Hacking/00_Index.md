@@ -64,6 +64,7 @@
 |-------|-------|-----------|------|------|
 | [[Boxes/TryHackMe/Lookup\|Lookup]] | Easy | ffuf列挙, elFinder RCE, PATH Hijacking, GTFOBins(look) | 2026-01-08 | SUID+PATH Hijackingがポイント |
 | [[Boxes/TryHackMe/WebHacking-Using-cURL-AoC2025-W8\|Web Hacking Using cURL (AoC2025 W8)]] | Easy | curl GET/POST, Cookie操作, bash BF, UA偽装 | 2026-01-13 | curl操作の基礎練習 |
+| [[Boxes/TryHackMe/Basic-Pentesting\|Basic Pentesting]] | Easy | enum4linux, Hydra SSH BF, ssh2john, John the Ripper | 2026-01-15 | SSH鍵のパーミッション不備 + パスフレーズ解析 |
 
 ### HackTheBox
 | Box名 | 難易度 | 習得スキル | 日付 | メモ |
