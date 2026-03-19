@@ -8,11 +8,15 @@
 
 ### 情報収集 / Reconnaissance
 - [x] Nmap → [[Skills/Nmap]]
+- [x] Directory Busting (Gobuster, Feroxbuster) → [[Tools/Gobuster]]
+- [x] ffuf (ユーザ名列挙・パスワードBF) ← Lookup
+- [x] SMB Enumeration (enum4linux) ← Basic Pentesting
+- [x] wpscan (WordPress調査) → [[Tools/wpscan]] ← Bricks Heist
 - [ ] OSINT
 - [ ] Subdomain Enumeration
-- [x] Directory Busting (Gobuster, Feroxbuster)
 
 ### Webアタック / Web Attacks
+- [x] curl を使ったWeb操作 (GET/POST/Cookie/UA偽装) → [[Tools/curl-cheatsheet]] ← AoC2025 W8
 - [ ] SQL Injection → [[Skills/SQL-Injection]]
 - [ ] XSS (Cross-Site Scripting)
 - [ ] File Inclusion (LFI/RFI)
@@ -20,39 +24,64 @@
 - [ ] IDOR
 - [ ] Command Injection
 - [ ] XXE
+- [ ] WordPress Exploitation (Bricks Builder CVE-2024-25600) ← Bricks Heist
 
 ### ネットワーク / Network
-- [ ] Port Scanning
-- [ ] Service Enumeration
-- [ ] SMB Enumeration
+- [x] Port Scanning
+- [x] Service Enumeration
+- [x] SMB Enumeration (enum4linux, smbclient)
 - [ ] FTP/SSH/Telnet
+- [ ] Active Directory
 
 ### 権限昇格 / Privilege Escalation
 - [x] Linux PrivEsc → [[Skills/Linux-PrivEsc]]
+- [x] SUID/SGID 悪用 ← Lookup
+- [x] PATH Hijacking ← Lookup
+- [x] GTFOBins 活用 (sudo look 等) ← Lookup
 - [ ] Windows PrivEsc → [[Skills/Windows-PrivEsc]]
-- [ ] SUID/SGID
 - [ ] Sudo Misconfigurations
 - [ ] Cron Jobs
 
 ### パスワード攻撃 / Password Attacks
+- [x] Hydra (SSH ブルートフォース) ← Lookup, Basic Pentesting
+- [x] John the Ripper → [[Tools/John-the-Ripper]] ← Basic Pentesting
+- [x] ssh2john (SSH鍵パスフレーズ解析) ← Basic Pentesting
 - [ ] Hashcat
-- [ ] John the Ripper
-- [ ] Hydra (Brute Force)
+- [ ] パスワードスプレー
 
 ### エクスプロイト / Exploitation
-- [ ] Metasploit
+- [x] Metasploit (RCE モジュール活用) ← Lookup, Bricks Heist
+- [x] CVE調査・活用 (searchsploit, PoC実行) ← Lookup, Bricks Heist
+- [x] SSH 秘密鍵の悪用 (パーミッション不備) ← Basic Pentesting
 - [ ] Buffer Overflow（基礎）
-- [ ] CVE調査・活用
+- [ ] Active Directory 攻撃
 
 ### ポストエクスプロイト / Post-Exploitation
-- [ ] シェル安定化
+- [x] リバースシェル (nc, PHP) ← Lookup, Bricks Heist
+- [x] シェル安定化 (python3 pty) ← Lookup
+- [x] プロセス・サービス調査 (systemctl) ← Bricks Heist
 - [ ] ピボッティング
 - [ ] データ抽出
 
+### フォレンジック / マルウェア調査
+- [x] マイニングマルウェア調査 (nm-inet-dialog) ← Bricks Heist
+- [x] エンコード解析 (CyberChef: Hex→Base64) ← Bricks Heist
+- [ ] メモリフォレンジック
+- [ ] ログ解析
+
+### 脅威インテリジェンス / Threat Intel
+- [x] ブロックチェーン調査 (blockchain.com) ← Bricks Heist
+- [x] OFAC サンクションリスト調査 ← Bricks Heist
+- [ ] MITRE ATT&CK フレームワーク
+- [ ] IOC 分析
+
 ### ツール
 - [[Tools/Nmap-Cheatsheet]]
-- [[Tools/Burp-Suite]]
 - [[Tools/Gobuster]]
+- [[Tools/curl-cheatsheet]]
+- [[Tools/John-the-Ripper]]
+- [[Tools/wpscan]]
+- [[Tools/Burp-Suite]]
 - [[Tools/Metasploit]]
 
 ---
@@ -87,4 +116,4 @@
 
 ---
 
-*最終更新: 2026-03-19*
+*最終更新: 2026-03-20*
