@@ -8,6 +8,7 @@
 
 ### 情報収集 / Reconnaissance
 - [x] Nmap → [[Skills/Nmap]]
+- [x] Rustscan (高速ポートスキャン) ← md2pdf
 - [x] Directory Busting (Gobuster, Feroxbuster) → [[Tools/Gobuster]]
 - [x] ffuf (ユーザ名列挙・パスワードBF) ← Lookup
 - [x] SMB Enumeration (enum4linux) ← Basic Pentesting
@@ -20,7 +21,7 @@
 - [ ] SQL Injection → [[Skills/SQL-Injection]]
 - [ ] XSS (Cross-Site Scripting)
 - [ ] File Inclusion (LFI/RFI)
-- [ ] SSRF
+- [x] SSRF (iframeインジェクション, PDF変換悪用) ← md2pdf
 - [ ] IDOR
 - [ ] Command Injection
 - [ ] XXE
@@ -95,6 +96,7 @@
 | [[Boxes/TryHackMe/WebHacking-Using-cURL-AoC2025-W8\|Web Hacking Using cURL (AoC2025 W8)]] | Easy | curl GET/POST, Cookie操作, bash BF, UA偽装 | 2026-01-13 | curl操作の基礎練習 |
 | [[Boxes/TryHackMe/Basic-Pentesting\|Basic Pentesting]] | Easy | enum4linux, Hydra SSH BF, ssh2john, John the Ripper | 2026-01-15 | SSH鍵のパーミッション不備 + パスフレーズ解析 |
 | [[Boxes/TryHackMe/TryHack3M-Bricks-Heist\|TryHack3M: Bricks Heist]] | Easy | wpscan, CVE-2024-25600 RCE, マイニングマルウェア調査, CyberChef, Threat Intel | 2026-01-15 | LockBit関連BTC追跡まで |
+| [[Boxes/TryHackMe/md2pdf\|md2pdf]] | Easy | Rustscan, Gobuster, SSRF (iframeインジェクション) | 2026-03-27 | PDF変換機能を悪用した内部API(localhost:5000)へのSSRF |
 
 ### HackTheBox
 | Box名 | 難易度 | 習得スキル | 日付 | メモ |
@@ -116,4 +118,4 @@
 
 ---
 
-*最終更新: 2026-03-20*
+*最終更新: 2026-03-27*
