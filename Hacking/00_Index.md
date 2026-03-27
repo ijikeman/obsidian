@@ -26,6 +26,7 @@
 - [ ] Command Injection
 - [ ] XXE
 - [ ] WordPress Exploitation (Bricks Builder CVE-2024-25600) ← Bricks Heist
+- [x] Tomcat Manager WAR Upload RCE ← bsidesgtthompson
 
 ### ネットワーク / Network
 - [x] Port Scanning
@@ -39,6 +40,7 @@
 - [x] SUID/SGID 悪用 ← Lookup
 - [x] PATH Hijacking ← Lookup
 - [x] GTFOBins 活用 (sudo look 等) ← Lookup
+- [x] Cron Job Hijacking (書き込み可能スクリプト) ← bsidesgtthompson
 - [ ] Windows PrivEsc → [[Skills/Windows-PrivEsc]]
 - [ ] Sudo Misconfigurations
 - [ ] Cron Jobs
@@ -51,8 +53,9 @@
 - [ ] パスワードスプレー
 
 ### エクスプロイト / Exploitation
-- [x] Metasploit (RCE モジュール活用) ← Lookup, Bricks Heist
+- [x] Metasploit (RCE モジュール活用) ← Lookup, Bricks Heist, bsidesgtthompson
 - [x] CVE調査・活用 (searchsploit, PoC実行) ← Lookup, Bricks Heist
+- [x] Ghostcat (CVE-2020-1938) AJP13経由ファイル読み取り ← bsidesgtthompson
 - [x] SSH 秘密鍵の悪用 (パーミッション不備) ← Basic Pentesting
 - [ ] Buffer Overflow（基礎）
 - [ ] Active Directory 攻撃
@@ -97,6 +100,7 @@
 | [[Boxes/TryHackMe/Basic-Pentesting\|Basic Pentesting]] | Easy | enum4linux, Hydra SSH BF, ssh2john, John the Ripper | 2026-01-15 | SSH鍵のパーミッション不備 + パスフレーズ解析 |
 | [[Boxes/TryHackMe/TryHack3M-Bricks-Heist\|TryHack3M: Bricks Heist]] | Easy | wpscan, CVE-2024-25600 RCE, マイニングマルウェア調査, CyberChef, Threat Intel | 2026-01-15 | LockBit関連BTC追跡まで |
 | [[Boxes/TryHackMe/md2pdf\|md2pdf]] | Easy | Rustscan, Gobuster, SSRF (iframeインジェクション) | 2026-03-27 | PDF変換機能を悪用した内部API(localhost:5000)へのSSRF |
+| [[Boxes/TryHackMe/bsidesgtthompson\|bsidesgtthompson]] | Easy | Ghostcat (CVE-2020-1938), Tomcat Manager WAR Upload RCE, Cron Job Hijacking | 2026-03-27 | 401ページのヒントから認証情報取得 → WAR RCE → cronジョブ乗っ取りでroot |
 
 ### HackTheBox
 | Box名 | 難易度 | 習得スキル | 日付 | メモ |
@@ -118,4 +122,4 @@
 
 ---
 
-*最終更新: 2026-03-27*
+*最終更新: 2026-03-27 (bsidesgtthompson 完全攻略)*
