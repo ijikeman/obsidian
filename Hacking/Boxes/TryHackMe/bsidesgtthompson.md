@@ -54,11 +54,7 @@ gobuster dir -u http://<TARGET_IP>:8080 -w /usr/share/wordlists/dirbuster/direct
 
 ### Ghostcat (CVE-2020-1938)
 
-AJP13 (8009) が外部公開されている。
-
-- Apache Tomcat 8.5.5 は脆弱なバージョン（修正版: 8.5.51+）
-- 認証なしで Tomcat アプリ内の任意のファイルを読み取り可能
-- `WEB-INF/web.xml` 等の設定ファイルから認証情報取得の可能性
+AJP13 (8009) が外部公開されており、Tomcat 8.5.5 は脆弱なバージョン（修正版: 8.5.51+）。
 
 ```bash
 # Metasploit で実行
@@ -68,7 +64,9 @@ set RPORT 8009
 run
 ```
 
-**結果**: `web.xml` 取得成功 → ただし認証情報なし（デフォルトTomcatページ）
+**結果**: 攻撃は成功しなかった。
+カスタムアプリがデプロイされていないため、読み取れる有用なファイルが存在しなかった。
+Ghostcatが有効なのは「カスタムアプリの `web.xml` 等に認証情報が含まれている」場合に限られる。
 
 ### AJP (Apache JServ Protocol) とは
 
@@ -172,7 +170,7 @@ run
 
 ## ハマったポイント
 
-- GhostcatでXML以外のファイル（`tomcat-users.xml`）は WEB-INF 外のため取得不可
+- Ghostcatに該当するTomcatバージョン（8.5.5）だったが攻撃は成功しなかった（カスタムアプリ未デプロイのため有用な情報なし）
 - Metasploit の `tomcat_mgr_login` ブルートフォースでは `s3cret` がヒットしなかった → 401ページを手動確認してヒントを発見
 - Metasploit の非対話モードではセッション操作に工夫が必要（`sessions -c` コマンド活用）
 
