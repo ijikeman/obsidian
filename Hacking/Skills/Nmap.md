@@ -68,6 +68,45 @@ nmap -sC -sV -p 22,80,443 <IP> -oN nmap/detailed
 nmap -sC -sV -sU -p- <IP>
 ```
 
+### 詳細スキャン（パケットトレース付き）
+```bash
+nmap $IP -sV -Pn -n --disable-arp-ping --packet-trace --reason -p $PORT
+```
+
+### 脆弱性スキャン
+```bash
+nmap $IP --script vuln -p $PORT
+```
+
+---
+
+## ターゲット IP の特定
+
+```bash
+# ネットワーク内のホスト一覧
+fping -aqg 192.168.0.0/24
+```
+
+---
+
+## Rustscan（高速版）
+
+nmap より高速にポートを発見し、nmap に渡せる。
+
+```bash
+# インストール
+sudo apt install rustscan
+
+# 高速ポートスキャン（1-1000番）
+rustscan -a $IP -b 100 --range 1-1000
+
+# UDP スキャン
+rustscan -a $IP -b 100 --range 1-1000 --udp -- -sU
+
+# nmap と組み合わせて詳細スキャン
+rustscan -a $IP -- -sC -sV
+```
+
 ## ハマったポイント
 - `-p-` は時間がかかるので `--min-rate` と組み合わせる
 - ファイアウォール環境では `-Pn`（ ping不要）が必要な場合がある

