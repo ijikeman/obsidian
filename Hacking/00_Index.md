@@ -40,7 +40,7 @@
 - [x] SUID/SGID 悪用 ← Lookup
 - [x] PATH Hijacking ← Lookup
 - [x] GTFOBins 活用 (sudo look 等) ← Lookup
-- [x] Cron Job Hijacking (書き込み可能スクリプト) ← bsidesgtthompson
+- [x] Cron Job Hijacking (書き込み可能スクリプト) ← bsidesgtthompson → [[Skills/Cron-Job-Hijacking]]
 - [ ] Windows PrivEsc → [[Skills/Windows-PrivEsc]]
 - [ ] Sudo Misconfigurations
 - [ ] Cron Jobs
@@ -87,6 +87,7 @@
 - [[Tools/wpscan]]
 - [[Tools/Burp-Suite]]
 - [[Tools/Metasploit]]
+- [[Tools/Apache-Tomcat]]
 
 ---
 
