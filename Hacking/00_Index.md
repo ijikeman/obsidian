@@ -27,7 +27,7 @@
 - [ ] XXE
 - [ ] WordPress Exploitation (Bricks Builder CVE-2024-25600) ← Bricks Heist
 - [x] Tomcat Manager WAR Upload RCE ← bsidesgtthompson
-- [x] JWT alg:none 攻撃 (role/credits改ざん) ← TryHeartMe
+- [x] JWT alg:none 攻撃 (role/credits改ざん) ← TryHeartMe → [[Skills/JWT-Attacks]]
 
 ### ネットワーク / Network
 - [x] Port Scanning

