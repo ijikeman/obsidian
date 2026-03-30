@@ -27,6 +27,7 @@
 - [ ] XXE
 - [ ] WordPress Exploitation (Bricks Builder CVE-2024-25600) ← Bricks Heist
 - [x] Tomcat Manager WAR Upload RCE ← bsidesgtthompson
+- [x] JWT alg:none 攻撃 (role/credits改ざん) ← TryHeartMe
 
 ### ネットワーク / Network
 - [x] Port Scanning
@@ -104,6 +105,7 @@
 | [[Boxes/TryHackMe/TryHack3M-Bricks-Heist\|TryHack3M: Bricks Heist]] | Easy | wpscan, CVE-2024-25600 RCE, マイニングマルウェア調査, CyberChef, Threat Intel | 2026-01-15 | LockBit関連BTC追跡まで |
 | [[Boxes/TryHackMe/md2pdf\|md2pdf]] | Easy | Rustscan, Gobuster, SSRF (iframeインジェクション) | 2026-03-27 | PDF変換機能を悪用した内部API(localhost:5000)へのSSRF |
 | [[Boxes/TryHackMe/bsidesgtthompson\|bsidesgtthompson]] | Easy | Ghostcat (CVE-2020-1938), Tomcat Manager WAR Upload RCE, Cron Job Hijacking | 2026-03-27 | 401ページのヒントから認証情報取得 → WAR RCE → cronジョブ乗っ取りでroot |
+| [[Boxes/TryHackMe/tryheartme\|TryHeartMe]] | Easy | JWT alg:none攻撃, JWTペイロード改ざん (role/credits), 隠し商品アクセス | 2026-03-30 | 登録レスポンスのSet-CookieにJWT → alg:none改ざんでadmin権限取得 |
 
 ### HackTheBox
 | Box名 | 難易度 | 習得スキル | 日付 | メモ |
@@ -125,4 +127,4 @@
 
 ---
 
-*最終更新: 2026-03-27 (bsidesgtthompson 完全攻略)*
+*最終更新: 2026-03-30 (TryHeartMe 完全攻略)*
