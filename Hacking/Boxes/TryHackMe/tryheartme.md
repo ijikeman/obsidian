@@ -35,6 +35,23 @@ nmap -sC -sV -p- --min-rate 5000 10.144.189.104 -oN nmap/ports
 | 22 | SSH | OpenSSH 9.6p1 Ubuntu |
 | 5000 | HTTP | Werkzeug/3.0.1 Python/3.12.3 |
 
+### ディレクトリ列挙
+
+```bash
+gobuster dir -u http://10.144.189.104:5000 -w /usr/share/wordlists/dirb/common.txt -x py,txt,html,json,bak
+```
+
+**発見したエンドポイント:**
+| パス | ステータス | 備考 |
+|------|---------|------|
+| `/login` | 200 | ログインページ |
+| `/register` | 200 | 登録ページ |
+| `/account` | 302 | 要ログイン |
+| `/admin` | 302 | 要ログイン → JWT改ざんで突破 |
+| `/logout` | 302 | ログアウト |
+
+`/admin` が存在することを確認。ログイン後に攻略対象となる。
+
 ### Webアプリ調査
 
 ポート5000にFlask製ショッピングサイト「TryHeartMe」が動作。
